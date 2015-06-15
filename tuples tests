@@ -1,0 +1,18 @@
+tuples = image.tuples_for(1)
+
+if tuples.sort == [[0,1], [1,0], [0,-1], [-1,0]].sort
+  puts "It works"
+else
+  puts "FAILS"
+  puts tuples.sort.inspect
+end
+ 
+tuples = image.tuples_for(2)
+expected = [ [2, 0], [0, 2], [1, 1], [0, 1], [1, 0], [-2,0], [0,-2], [-1,-1],[0,-1],[-1,0], [1,-1], [-1,1] ]
+if tuples.sort ==  expected.sort
+  puts "It works"
+else
+  puts "FAILS"
+  puts "Actual: #{tuples.sort.inspect}"
+  puts "Expected: #{expected.sort.inspect}"
+end
