@@ -12,27 +12,31 @@ end
 
 def depth_first(node, target_value)
 	@trunk = node
-	@children_idx = 0
+	@branch_idx = 0
 	@pass = 0
+	@branch_arr = []
 	depth_first_continued(node, target_value)
 end
 
 def depth_first_continued(node, target_value)
   return true if node.payload == target_value
-  puts "payload=#{node.payload}"
-  puts "pass=#{@pass}"
-  if node.children.empty?
-  	@children_idx += 1
-  	@pass += 1
-  	depth_first_continued(@trunk, target_value)
+  current_node = node
+  puts "payload=#{current_node.payload}"
+  if current_node.children[@branch_idx+1] != nil
+  	@branch_arr.unshift(current_node)
+  	puts @branch_arr.inspect
   end
-  if node.children[@children_idx].nil?
-  	puts "node.children[#{@children_idx}]=nil"
-  	node = node.children[@children_idx-@pass]
-  else
-  	node = node.children[@children_idx]
+  if current_node.children.empty?
+  	branch_node = @branch_arr.shift
+  	puts "branch_node ="
+  	puts branch_node.inspect
+  	current_node = branch_node.children[1]
+  	#current_node = current_node.children[1]
+  	puts "current_node ="
+  	puts current_node.inspect
+  	else current_node = current_node.children[0]
   end
-  depth_first_continued(node, target_value)
+  depth_first_continued(current_node, target_value)
 end
 
 # The "Leafs" of a tree, elements that have no children
