@@ -19,28 +19,23 @@ def depth_first(node, target_value)
 end
 
 def depth_first_recursive(node, target_value)
-  return true if node.payload == target_value
+  return "value was found" if node.payload == target_value
   current_node = node
   puts "payload=#{current_node.payload}"
   if current_node.children[@branch_idx+1] != nil
   	@branch_arr.unshift(current_node)
-  #	puts @branch_arr.inspect
   end
   if current_node.children.empty?
   	branch_node = @branch_arr[@branch_arr_idx]
   	@branch_idx += 1 
   	if (@branch_idx >= branch_node.children.length) && (@branch_arr_idx >= @branch_arr.length-1)
-  		return false
+  		return "value not found"
   	elsif @branch_idx >= branch_node.children.length
   		@branch_arr_idx += 1
   		branch_node = @branch_arr[@branch_arr_idx]
   		@branch_idx = 1
   	end
-  #	puts "branch_node ="
-  #	puts branch_node.inspect
   	current_node = branch_node.children[@branch_idx]
-  #	puts "current_node ="
-  #	puts current_node.inspect
   	else current_node = current_node.children[0]
   end
   depth_first_recursive(current_node, target_value)
@@ -60,6 +55,6 @@ fifth_node = Tree.new(5, [ninth_node])
 
 # The "Trunk" of the tree
 trunk   = Tree.new(2, [seventh_node, fifth_node])
-puts depth_first(trunk, 10).to_s
+puts depth_first(trunk, 11)
 
 
