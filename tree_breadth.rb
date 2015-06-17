@@ -24,7 +24,6 @@ class Queue
 
 	def breadth_first(node, target_value)
 		return "value not found" if node.nil?
-		return "value was found" if node.payload == target_value
 		node.children.each do |child|
 			enqueue(child)
 			return "value was found" if child.payload == target_value
