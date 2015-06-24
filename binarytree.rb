@@ -14,46 +14,39 @@ end
 		@trunk = BinaryTree.new(first_number)
 		prev_node = @trunk
 	  unsorted_arr.each do |number|	 
-	  	puts "number = #{number}" 		  
-		  if number < prev_node.payload && prev_node.left != nil
-		  	while prev_node.left != nil
-			  	puts "moved #{number} past #{prev_node.payload} to #{prev_node.left.payload}"
-			  	prev_node = prev_node.left
-		  	end
-		  end
-		  if number < prev_node.payload && prev_node.left == nil
+	  	puts "number = #{number}" 
+	  	insert(number, @trunk)
+	  end
+	end
+
+	def insert(number, trunk)
+		prev_node = trunk
+  	while prev_node != nil	
+	  	if number < prev_node.payload && prev_node.left == nil
 		  	prev_node.left = BinaryTree.new(number)
 		  	puts "inserted #{number} to the left of #{prev_node.payload}"
-		  	prev_node = @trunk
-		  end
-		  if number > prev_node.payload && prev_node.right != nil
-		  	while prev_node.right != nil
-			  	puts "moved #{number} past #{prev_node.payload} to #{prev_node.right.payload}"
-			  	prev_node = prev_node.right
-		  	end
-		  end
-		  if number > prev_node.payload && prev_node.right == nil
+		  	prev_node = @trunk  
+		  elsif number > prev_node.payload && prev_node.right == nil
 		  	prev_node.right = BinaryTree.new(number)
 		  	puts "inserted #{number} to the right of #{prev_node.payload}"
 		  	prev_node = @trunk
-		  end	  
-		  
-		  if number < prev_node.payload && prev_node.left == nil
-		  	prev_node.left = BinaryTree.new(number)
-		  	puts "inserted: #{number}"
-		  	prev_node = @trunk
+		  elsif number < prev_node.payload && prev_node.left != nil
+			  	puts "moved #{number} past #{prev_node.payload} to #{prev_node.left.payload}"
+			  	prev_node = prev_node.left
+		  elsif number > prev_node.payload && prev_node.right != nil
+			  	puts "moved #{number} past #{prev_node.payload} to #{prev_node.right.payload}"
+			  	prev_node = prev_node.right
+		  else
+		  	return
 		  end
-		  if number > prev_node.payload && prev_node.right == nil
-		  	prev_node.right = BinaryTree.new(number)
-		  	puts "inserted: #{number}"
-		  	prev_node = @trunk
-		  end	  
 		end
 		puts "trunk =="
 		puts @trunk.inspect
 		@stack = []
 		collect_nodes(@trunk)
 	end
+		
+
 
 	def collect_nodes(node)
 		return if node.nil?
