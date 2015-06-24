@@ -21,7 +21,6 @@ def is_infinite?(list_node)
   @hare = list_node
   @tortoise = list_node
   is_infinite_recursive(@hare, @tortoise)
-
 end
 
 def is_infinite_recursive(hare, tortoise)
