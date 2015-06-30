@@ -11,11 +11,10 @@ end
 
 
 def depth_first(node, target_value)
-  puts node.payload
 	return node if node.payload == target_value
   node.children.each do |child|
     found = depth_first(child, target_value)
-    return found if found #return to where?
+    return found if found
   end 
 
   return nil
@@ -36,5 +35,6 @@ fifth_node = Tree.new(5, [ninth_node])
 
 # The "Trunk" of the tree
 trunk = Tree.new(2, [seventh_node, fifth_node])
+binding.pry
 puts depth_first(trunk, 11).payload
 
