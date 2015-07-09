@@ -12,7 +12,7 @@ module Luhn
       arr << value
     end
     result = arr.inject { |result, element| result + element }
-    result%10 == 0 ? true : false
+    result%10 == 0
   end
 end
 
