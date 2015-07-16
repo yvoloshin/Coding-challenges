@@ -2,16 +2,16 @@ require 'minitest/autorun'
 
 module Luhn
   def self.is_valid?(number)
-    arr=[]
+    result = 0
     number.to_s.split(//).each_with_index do |value,index|
       if index%2 == 0
         value = (value.to_i * 2) >= 10 ? (value.to_i * 2-9) : value.to_i * 2
       else
         value = value.to_i
       end
-      arr << value
+      result += value
     end
-    result = arr.inject { |result, element| result + element }
+    #result = arr.inject { |result, element| result + element }
     result%10 == 0
   end
 end
