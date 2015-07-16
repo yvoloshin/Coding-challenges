@@ -4,7 +4,7 @@
 # Locations are shown using x/y 0-7 notation.
 
 def is_obstructed?(piece1_loc, destination, piece2_loc=nil)
-# converts the location arrays into easier-to-read x and y terms
+  # converts the location arrays into easier-to-read x and y terms
   x1 = piece1_loc[0]
   y1 = piece1_loc[1]
   x2 = destination[0]
@@ -13,8 +13,8 @@ def is_obstructed?(piece1_loc, destination, piece2_loc=nil)
     x3 = piece2_loc[0]
     y3 = piece2_loc[1]
   end
-  # Determines whether the line between piece 1 and the destination is horizontal or vertical. 
-  # If neither, then it calculates the slope of line between piece 1 and destination. 
+  # Determines whether the line between piece 1 and the destination is horizontal or vertical.
+  # If neither, then it calculates the slope of line between piece 1 and destination.
   # If a second piece is given, then it also calculates the slope between piece 1 and piece 2.
   if y1 == y2
     horizontal = true
