@@ -118,17 +118,13 @@ def collatz_with_hash2_redis(num)
   length = 1
   longest_length = 1
   longest_n = 2
-  # cache = {}
-  # @MC[:my_cache] = cache
   while n <= num
     i = n
     length = 1
     redis.rpush(n, i)
-    #cache[n] = [i]
     while i != 1
       i = i%2 == 0 ? i/2 : 3*i + 1
       if i < n && i != 1
-        #cache[n] += cache[i]
         cache = redis.lrange(i, 0, -1)
         redis.rpush(n, cache)
         break
