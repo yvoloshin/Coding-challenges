@@ -72,8 +72,8 @@ def collatz_with_hash2(num)
     end
     n += 1
   end
-  # puts "longest length = #{longest_length}"
-  # puts "input = #{longest_n}"
+  #puts "longest length = #{longest_length}"
+  #puts "input = #{longest_n}"
 end
 
 def collatz_with_hash3_recursion(num)
@@ -94,8 +94,8 @@ def collatz_with_hash3_recursion(num)
     end
     n += 1
   end
-  puts "longest length = #{longest_length}"
-  puts "input = #{longest_n}"
+  #puts "longest length = #{longest_length}"
+  #puts "input = #{longest_n}"
 end
 
 def calculate_sequence(cache, n)
@@ -110,6 +110,41 @@ def calculate_sequence(cache, n)
   calculate_sequence(cache, n)
 end
 
+def collatz_with_hash2_redis(num)
+  require "redis"
+  redis = Redis.new(:host => 'localhost', :port => 6379)
+  redis.flushdb
+  n = 2
+  length = 1
+  longest_length = 1
+  longest_n = 2
+  # cache = {}
+  # @MC[:my_cache] = cache
+  while n <= num
+    i = n
+    length = 1
+    redis.rpush(n, i)
+    #cache[n] = [i]
+    while i != 1
+      i = i%2 == 0 ? i/2 : 3*i + 1
+      if i < n && i != 1
+        #cache[n] += cache[i]
+        cache = redis.lrange(i, 0, -1)
+        redis.rpush(n, cache)
+        break
+      else
+        redis.rpush(n, i)
+      end
+    end
+    # if redis.llen(n) > longest_length
+    #    longest_length = redis.llen(n)
+    #    longest_n = n
+    # end
+    n += 1
+  end
+  #puts "longest length = #{longest_length}"
+  #puts "input = #{longest_n}"
+end
 
 require 'benchmark'
 num = 1000
@@ -117,7 +152,8 @@ Benchmark.bm do |x|
   x.report("collatz n=1000") { collatz(num) }
   x.report("collatz_with_hash n=1000")  { collatz_with_hash(num)  }
   x.report("collatz_with_hash2 n=1000")  { collatz_with_hash2(num)  }
-  x.report("collatz_with_hash3_recursion n=1000")  { collatz_with_hash2(num)  }
+  x.report("collatz_with_hash3_recursion n=1000")  { collatz_with_hash3_recursion(num)  }
+  x.report("collatz_with_hash2_redis n=1000")  { collatz_with_hash2_redis(num)  }
 end
 
 num = 10_000
@@ -126,6 +162,7 @@ Benchmark.bm do |x|
   x.report("collatz_with_hash n=10_000")  { collatz_with_hash(num)  }
   x.report("collatz_with_hash2 n=10_000")  { collatz_with_hash2(num)  }
   x.report("collatz_with_hash3_recursion n=10_000")  { collatz_with_hash2(num) }
+  x.report("collatz_with_hash2_redis n=10_000")  { collatz_with_hash2_redis(num)  }
 end
 
 num = 100_000
@@ -134,12 +171,11 @@ Benchmark.bm do |x|
   x.report("collatz_with_hash n=100_000")  { collatz_with_hash(num)  }
   x.report("collatz_with_hash2 n=100_000")  { collatz_with_hash2(num)  }
   x.report("collatz_with_hash3_recursion n=100_000")  { collatz_with_hash2(num) }
+  x.report("collatz_with_hash2_redis n=100_000")  { collatz_with_hash2_redis(num)  }
 end
 
 num = 1_000_000
 Benchmark.bm do |x|
   x.report("collatz n=1_000_000") { collatz(num) }
-  x.report("collatz_with_hash n=1_000_000")  { collatz_with_hash(num)  }
-  x.report("collatz_with_hash2 n=1_000_000")  { collatz_with_hash2(num)  }
-  x.report("collatz_with_hash3_recursion n=1_000_000")  { collatz_with_hash2(num) }
+  x.report("collatz_with_hash2_redis n=1_000_000")  { collatz_with_hash2_redis(num)  }
 end
