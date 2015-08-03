@@ -28,12 +28,15 @@ def collatz_with_hash(num)
     i = n
     length = 1
     cache[n] = [i]
+    puts "n=#{ndef }"
     while i != 1
       i = i%2 == 0 ? i/2 : 3*i + 1
       if cache.key?(i)
+        puts "key found #{i}"
         cache[n] += cache[i]
         break
       else
+        puts "key not found #{i}"
         cache[n] << i
       end
     end
