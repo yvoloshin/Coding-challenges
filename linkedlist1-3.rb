@@ -1,6 +1,6 @@
 class LinkedListNode
   attr_accessor :value, :next_node
- 
+
   def initialize(value, next_node=nil)
     @value = value
     @next_node = next_node
@@ -19,13 +19,13 @@ class LinkedListNode
 
 end #class LinkedList
 
-class Stack  
+class Stack
  attr_reader :data
-    
+
     def initialize
         @data = nil
     end
- 
+
   def print_values
     print "#{@data.value} --> "
     if @data.next_node.nil?
@@ -38,10 +38,7 @@ class Stack
 
 
   def push(value)
-    #puts @data.inspect
     @data = LinkedListNode.new(value, @data)
-
-  	
   end
 
   def pop
@@ -72,12 +69,12 @@ stack.print_values
 if __FILE__ == $0
   gem 'minitest'
   require 'minitest/autorun'
- 
+
   class TestStack < MiniTest::Test
     def setup
       @stack = Stack.new
     end
- 
+
     def test_stack_push_then_pop_behavior
       @stack.push(1)
       @stack.push(2)
@@ -86,15 +83,9 @@ if __FILE__ == $0
       assert_equal 2, @stack.pop
       assert_equal 1, @stack.pop
     end
- 
+
     def test_stack_pop_returns_nil_if_empty
       assert_equal nil, @stack.pop
     end
   end
 end
-
-
-
-
-
-
